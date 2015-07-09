@@ -1,1 +1,1 @@
-angular.module('minhasFinancas', []);
+angular.module('minhasFinancas', ['ui.bootstrap']);

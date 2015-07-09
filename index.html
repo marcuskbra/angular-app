@@ -2,60 +2,86 @@
 <html lang="pt-BR" ng-app="minhasFinancas">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Minhas Finanças</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minhas Finanças</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+<!-- Bootstrap -->
+<link href="css/bootstrap.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/controllers/contasCtrl.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.4.2/i18n/angular-locale_pt-br.js"></script>
+
+<script src="lib/ui-bootstrap-tpls-0.13.0.min.js"></script>
+
+<script src="js/app.js"></script>
+<script src="js/controllers/contasCtrl.js"></script>
+<style type="text/css">
+.nav, .pagination, .carousel, .panel-title a {
+	cursor: pointer;
+}
+</style>
 </head>
 
 <body ng-controller="contasCtrl">
-    <div class="container-fluid">
-        <div class="page-header">
-            <h1 ng-bind="appTitle"></h1>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Conta</th>
-                            <th>Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="conta in contas">
-                            <td>{{conta.nome}}</td>
-                            <td>{{conta.saldo}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-9"></div>
-        </div>
+	<div class="container-fluid">
+		<div class="page-header">
+			<h1 ng-bind="appTitle"></h1>
+		</div>
+		<div class="row">
+			<div class="col-xs-3">
+				<table class="table table-hover table-condensed" ng-if="contas.length > 0">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Conta</th>
+							<th>Valor</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="conta in contas">
+							<td><input type="checkbox" ng-model="conta.selecionado"></td>
+							<td>{{conta.nome}}</td>
+							<td>{{conta.saldo | currency}}</td>
+						</tr>
+					</tbody>
+				</table>
 
-    </div>
+				<form name="addContaForm">
+					<div class="form-group">
+						<input type="text" ng-model="conta.nome" ng-required="true" class="form-control" placeholder="Nome da Conta"/>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">R$ </div>
+							<input type="number" ng-model="conta.saldo" ng-required="true" class="form-control" placeholder="Saldo da Conta"/>
+						</div>
+					</div>
+					<button ng-click="adicionarConta(conta)" ng-disabled="addContaForm.$invalid" class="btn btn-primary btn-block">Adicionar Conta</button>
+					<button ng-click="removerContas(contas)" ng-disabled="!isContaSelecionada(contas)" class="btn btn-danger btn-block">Remover Conta</button>
+				</form>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="lib/jquery-1.11.3.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="lib/bootstrap.js"></script>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-9"></div>
+		</div>
+
+	</div>
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="lib/jquery-1.11.3.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="lib/bootstrap.js"></script>
 
 </body>
 
