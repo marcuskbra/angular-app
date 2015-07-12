@@ -1,1 +1,1 @@
-angular.module('minhasFinancas', ['ui.bootstrap']);
+angular.module('minhasFinancas', ['ngLocale', 'ngMessages', 'ngMaterial']);

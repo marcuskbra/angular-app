@@ -1,5 +1,8 @@
 angular.module('minhasFinancas')
-    .controller('contasCtrl', function($scope) {
+    .controller('contasCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
+	    $scope.toggleSidenav = function(menuId) {
+	    	$mdSidenav(menuId).toggle();
+	    };
         $scope.appTitle = 'Minhas Finanças';
         $scope.contas = getContas();
 
@@ -37,4 +40,4 @@ angular.module('minhasFinancas')
             ];
             return contas;
         }
-    });
+    }]);
