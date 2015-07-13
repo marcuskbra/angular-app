@@ -13,31 +13,39 @@ angular.module('minhasFinancas')
 
         $scope.removerContas = function(contas) {
         	$scope.contas = contas.filter(function(conta) {
-				if (!conta.selecionado) {
-					return conta;
-				}
+        		var indexOf = $scope.tableConfig.selectedRows.indexOf(conta);
+        		return indexOf === -1;
 			});
-        	console.log($scope.contas)
+        	$scope.tableConfig.selectedRows = [];
 		};
 		
-		$scope.isContaSelecionada = function(contas) {
-			return contas.some(function(conta) {
-				return conta.selecionado;
-			});
-		};
-		
-        function getContas() {
-            var contas = [
-                {
-                    nome: 'Santander', saldo: '2222'
-                },
-                {
-                    nome: 'Bradesco', saldo: '45222'
-                },
-                {
-                    nome: 'Itau', saldo: '550'
-                }
-            ];
-            return contas;
-        }
+        $scope.tableConfig = {
+          order: 'nome',
+          limit: 5,
+          page: 1,
+          selectedRows: []
+        };
+        
+        $scope.skipPagination = function (item, index) {
+    	  return index >= ($scope.tableConfig.limit * ($scope.tableConfig.page - 1));
+    	};
+    	
     }]);
+
+function getContas() {
+	var contas = [
+          {
+        	  nome: 'Santander', saldo: 2222, active: 'true'
+          },
+          {
+        	  nome: 'Bradesco', saldo: 4522, active: 'true'
+          },
+          {
+        	  nome: 'Itau', saldo: 550, active: 'true'
+          },
+          {
+        	  nome: 'HSBC', saldo: 50, active: 'true'
+          }
+      ];
+	return contas;
+}
