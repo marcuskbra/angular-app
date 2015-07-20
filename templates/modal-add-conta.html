@@ -1,0 +1,33 @@
+<md-dialog aria-label="Adicionar Conta">
+	<form name="addContaForm">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Adicionar Conta</h2>
+				<md-button class="md-icon-button" ng-click="cancelModal()">
+					<md-icon md-font-library="material-icons" aria-label="Close dialog">close</md-icon></md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<md-input-container> 
+				<label>Conta</label> 
+				<input md-maxlength="30" required name="nome" type="text" ng-model="conta.nome" />
+				<div ng-messages="addContaForm.nome.$error">
+					<div ng-message="required">This is required.</div>
+					<div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+				</div>
+			</md-input-container>
+			<md-input-container>
+				<label>Saldo (R$)</label> 
+				<input required type="number" step="any" name="saldo" ng-model="conta.saldo">
+				<div ng-messages="addContaForm.saldo.$error">
+					<div ng-message="required">
+						This is required.
+					</div>
+				</div>
+			</md-input-container>
+			<md-button ng-click="confirmModal(conta)" ng-disabled="addContaForm.$invalid" class="md-primary">Adicionar Conta</md-button>
+			<md-button ng-click="cancelModal()" class="md-accent">Cancelar</md-button>
+		</md-dialog-content>
+	</form>
+</md-dialog>
