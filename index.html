@@ -38,8 +38,9 @@ md-data-table-toolbar.alternate {
 
 	<md-toolbar layout="row" md-scroll-shrink="true">
 	<div class="md-toolbar-tools">
-		<md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button"> <md-icon aria-label="Menu"
-			md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon> </md-button>
+		<md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button"> 
+			<md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
+		</md-button>
 		<h1 ng-bind="appTitle"></h1>
 	</div>
 	</md-toolbar>
@@ -70,11 +71,15 @@ md-data-table-toolbar.alternate {
 			</form>
 		
 		</md-sidenav>
-		<div layout="column" flex id="content">
-			<md-content layout="column" flex class="md-padding">
+		<md-card layout="column" flex id="content">
+			<md-card-content layout="column" flex class="md-padding">
 			
-			<md-data-table-toolbar ng-show="!tableConfig.selectedRows.length">
+			<md-data-table-toolbar ng-show="!tableConfig.selectedRows.length" layout-align="space-between center">
 			  <h2 class="md-title">Contas</h2>
+			  
+			  <md-button class="md-fab" ng-click="openModalAdd($event)">
+			    <md-icon md-font-library="material-icons">add</md-icon>
+			  </md-button>
 			</md-data-table-toolbar>
 			
 			<md-data-table-toolbar class="alternate" layout-align="space-between center" ng-show="tableConfig.selectedRows.length">
@@ -105,9 +110,9 @@ md-data-table-toolbar.alternate {
 			  <md-data-table-pagination md-limit="tableConfig.limit" md-page="tableConfig.page" md-total="{{contas.length}}" md-trigger="onPageChange"/>
 			</md-data-table-toolbar>
 			
-			</md-content>
+			</md-card-content>
 		</div>
-	</div>
+	</md-card>
 
 
 </body>

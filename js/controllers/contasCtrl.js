@@ -1,5 +1,5 @@
 angular.module('minhasFinancas')
-    .controller('contasCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
+    .controller('contasCtrl', ['$scope', '$mdSidenav', '$mdDialog', function($scope, $mdSidenav, $mdDialog){
 	    $scope.toggleSidenav = function(menuId) {
 	    	$mdSidenav(menuId).toggle();
 	    };
@@ -7,8 +7,12 @@ angular.module('minhasFinancas')
         $scope.contas = getContas();
 
         $scope.adicionarConta = function(conta) {
-			$scope.contas.push(angular.copy(conta));
-			delete $scope.conta;
+			try {
+				$scope.contas.push(angular.copy(conta));
+				delete $scope.conta;
+			} catch (e) {
+				console.error(e);
+			}
 		};
 
         $scope.removerContas = function(contas) {
@@ -26,10 +30,31 @@ angular.module('minhasFinancas')
           selectedRows: []
         };
         
+        $scope.openModalAdd = function(ev) {
+        	$mdDialog.show({
+      	      controller: 'contasCtrl',
+      	      templateUrl: 'templates/modal-add-conta.html',
+      	      parent: angular.element(document.body),
+      	      targetEvent: ev,
+      	    })
+      	    .then(function(conta) {
+      	      console.log('Adicionando Conta. ' + conta);
+      	      $scope.adicionarConta(conta);
+      	    }, function() {
+      	      console.log('You cancelled the dialog.');
+      	    });
+		};
+        
         $scope.skipPagination = function (item, index) {
     	  return index >= ($scope.tableConfig.limit * ($scope.tableConfig.page - 1));
     	};
     	
+		$scope.confirmModal = function(conta) {
+			$mdDialog.hide(conta);
+		};
+		$scope.cancelModal = function() {
+			$mdDialog.cancel();
+		};
     }]);
 
 function getContas() {
