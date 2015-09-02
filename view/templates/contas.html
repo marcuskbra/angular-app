@@ -1,0 +1,36 @@
+
+<md-data-table-toolbar ng-show="!tableConfig.selectedRows.length" layout-align="space-between center">
+  <h2 class="md-title">Contas</h2>
+  
+  <md-button class="md-fab" ng-click="openModalAdd($event)">
+    <md-icon md-font-library="material-icons">add</md-icon>
+  </md-button>
+</md-data-table-toolbar>
+				
+<md-data-table-toolbar class="alternate" layout-align="space-between center" ng-show="tableConfig.selectedRows.length">
+  <div>{{tableConfig.selectedRows.length}} {{tableConfig.selectedRows.length > 1 ? 'items selecionados' : 'item selecionado'}}</div>
+  <md-button class="md-icon-button" ng-click="removerContas(contas)">
+    <md-icon md-font-library="material-icons">delete</md-icon>
+  </md-button>
+</md-data-table-toolbar>
+
+<md-data-table-container>
+  <table md-data-table md-row-select="tableConfig.selectedRows">
+    <thead md-order="tableConfig.order">
+      <tr>
+        <th order-by="nome">Conta</th>
+        <th numeric order-by="saldo">Saldo</th>
+      </tr>
+    </thead>
+    <tbody md-auto-select>
+      <tr ng-repeat="conta in contas | orderBy: tableConfig.order | filter: skipPagination | limitTo: tableConfig.limit">
+		<td>{{conta.nome}}</td>
+		<td>{{conta.saldo | currency}}</td>
+      </tr>
+    </tbody>
+  </table>
+</md-data-table-container>
+
+<md-data-table-toolbar layout-align="end">
+  <md-data-table-pagination md-limit="tableConfig.limit" md-page="tableConfig.page" md-total="{{contas.length}}" md-trigger="onPageChange"/>
+</md-data-table-toolbar>

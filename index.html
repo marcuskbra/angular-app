@@ -16,12 +16,15 @@
 <script src="https://code.angularjs.org/1.4.2/i18n/angular-locale_pt-br.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-animate.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-messages.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-route.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-aria.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.js"></script>
 
 
 <script src="js/app.js"></script>
+<script src="js/config/routeConfig.js"></script>
+<script src="js/services/contasService.js"></script>
 <script src="js/controllers/contasCtrl.js"></script>
 <script src="lib/md-data-table.js" type="text/javascript" ></script>
 
@@ -47,69 +50,26 @@ md-data-table-toolbar.alternate {
 	<div layout="row" flex>
 		<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')"> 
 		
-			<form name="addContaForm">
-				<md-input-container> 
-					<label>Conta</label> 
-					<input md-maxlength="30" required name="nome" type="text" ng-model="conta.nome" />
-					<div ng-messages="addContaForm.nome.$error">
-						<div ng-message="required">This is required.</div>
-						<div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
-					</div>
-				</md-input-container>
-				<md-input-container> 
-					<label>Saldo (R$)</label> 
-					<input required type="number" step="any" name="saldo" ng-model="conta.saldo">
-					<div ng-messages="addContaForm.saldo.$error">
-						<div ng-message="required">
-							This is required.
-						</div>
-					</div>
-				</md-input-container>
-				<md-button ng-click="adicionarConta(conta)" ng-disabled="addContaForm.$invalid" class="md-fab"> 
-					<md-icon md-font-library="material-icons">add</md-icon>
-				</md-button>
-			</form>
+		  <md-list>
+		    <md-list-item>
+		      <md-button class="md-grid-item-content">
+		        <md-icon md-font-library="material-icons">account_balance</md-icon>
+		        Contas 
+		      </md-button>
+		    </md-list-item>
+		    <md-list-item>
+		      <md-button class="md-grid-item-content">
+		        <md-icon md-font-library="material-icons">dns</md-icon>
+		        Transações
+		      </md-button>
+		    </md-list-item>
+		    
+		  </md-list>
 		
 		</md-sidenav>
 		<md-card layout="column" flex id="content">
-			<md-card-content layout="column" flex class="md-padding">
-			
-			<md-data-table-toolbar ng-show="!tableConfig.selectedRows.length" layout-align="space-between center">
-			  <h2 class="md-title">Contas</h2>
-			  
-			  <md-button class="md-fab" ng-click="openModalAdd($event)">
-			    <md-icon md-font-library="material-icons">add</md-icon>
-			  </md-button>
-			</md-data-table-toolbar>
-			
-			<md-data-table-toolbar class="alternate" layout-align="space-between center" ng-show="tableConfig.selectedRows.length">
-			  <div>{{tableConfig.selectedRows.length}} {{tableConfig.selectedRows.length > 1 ? 'items selecionados' : 'item selecionado'}}</div>
-			  <md-button class="md-icon-button" ng-click="removerContas(contas)">
-			    <md-icon md-font-library="material-icons">delete</md-icon>
-			  </md-button>
-			</md-data-table-toolbar>
-			
-			<md-data-table-container>
-			  <table md-data-table md-row-select="tableConfig.selectedRows">
-			    <thead md-order="tableConfig.order">
-			      <tr>
-			        <th order-by="nome">Conta</th>
-			        <th numeric order-by="saldo">Saldo</th>
-			      </tr>
-			    </thead>
-			    <tbody md-auto-select>
-			      <tr ng-repeat="conta in contas | orderBy: tableConfig.order | filter: skipPagination | limitTo: tableConfig.limit">
-					<td>{{conta.nome}}</td>
-					<td>{{conta.saldo | currency}}</td>
-			      </tr>
-			    </tbody>
-			  </table>
-			</md-data-table-container>
-			
-			<md-data-table-toolbar layout-align="end">
-			  <md-data-table-pagination md-limit="tableConfig.limit" md-page="tableConfig.page" md-total="{{contas.length}}" md-trigger="onPageChange"/>
-			</md-data-table-toolbar>
-			
+			<md-card-content layout="column" flex class="md-padding" ng-view>
+				
 			</md-card-content>
 		</div>
 	</md-card>

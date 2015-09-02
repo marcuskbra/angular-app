@@ -1,1 +1,1 @@
-angular.module('minhasFinancas', ['ngLocale', 'ngMessages', 'md.data.table', 'ngMaterial']);
+angular.module('minhasFinancas', ['ngLocale', 'ngMessages', 'md.data.table', 'ngMaterial', 'ngRoute']);

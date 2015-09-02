@@ -1,18 +1,15 @@
 angular.module('minhasFinancas')
-    .controller('contasCtrl', ['$scope', '$mdSidenav', '$mdDialog', function($scope, $mdSidenav, $mdDialog){
+    .controller('contasCtrl', ['$scope', '$mdSidenav', '$mdDialog', 'contasService', function($scope, $mdSidenav, $mdDialog, contasService){
 	    $scope.toggleSidenav = function(menuId) {
 	    	$mdSidenav(menuId).toggle();
 	    };
         $scope.appTitle = 'Minhas Finanças';
-        $scope.contas = getContas();
+        $scope.contas = contasService.getContas();
 
         $scope.adicionarConta = function(conta) {
-			try {
-				$scope.contas.push(angular.copy(conta));
-				delete $scope.conta;
-			} catch (e) {
-				console.error(e);
-			}
+        	contasService.adicionarConta(conta);
+        	$scope.contas = contasService.getContas();
+        	delete $scope.conta;
 		};
 
         $scope.removerContas = function(contas) {
@@ -33,15 +30,15 @@ angular.module('minhasFinancas')
         $scope.openModalAdd = function(ev) {
         	$mdDialog.show({
       	      controller: 'contasCtrl',
-      	      templateUrl: 'templates/modal-add-conta.html',
+      	      templateUrl: 'view/templates/modal-add-conta.html',
       	      parent: angular.element(document.body),
       	      targetEvent: ev,
       	    })
       	    .then(function(conta) {
-      	      console.log('Adicionando Conta. ' + conta);
+      	      //console.log('Adicionando Conta. ' + conta);
       	      $scope.adicionarConta(conta);
       	    }, function() {
-      	      console.log('You cancelled the dialog.');
+      	      //console.log('You cancelled the dialog.');
       	    });
 		};
         
@@ -57,20 +54,3 @@ angular.module('minhasFinancas')
 		};
     }]);
 
-function getContas() {
-	var contas = [
-          {
-        	  nome: 'Santander', saldo: 2222, active: 'true'
-          },
-          {
-        	  nome: 'Bradesco', saldo: 4522, active: 'true'
-          },
-          {
-        	  nome: 'Itau', saldo: 550, active: 'true'
-          },
-          {
-        	  nome: 'HSBC', saldo: 50, active: 'true'
-          }
-      ];
-	return contas;
-}
