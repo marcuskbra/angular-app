@@ -4,12 +4,17 @@ angular.module('minhasFinancas')
 	    	$mdSidenav(menuId).toggle();
 	    };
         $scope.appTitle = 'Minhas Finanças';
-        $scope.contas = contasService.getContas();
+        contasService.getContas(function(data) {
+            $scope.contas = data;
+        });
 
         $scope.adicionarConta = function(conta) {
-        	contasService.adicionarConta(conta);
-        	$scope.contas = contasService.getContas();
-        	delete $scope.conta;
+        	contasService.adicionarConta(conta, function () {
+                delete $scope.conta;
+                contasService.getContas(function(data) {
+                    $scope.contas = data;
+                });
+            });
 		};
 
         $scope.removerContas = function(contas) {
@@ -35,7 +40,6 @@ angular.module('minhasFinancas')
       	      targetEvent: ev,
       	    })
       	    .then(function(conta) {
-      	      //console.log('Adicionando Conta. ' + conta);
       	      $scope.adicionarConta(conta);
       	    }, function() {
       	      //console.log('You cancelled the dialog.');

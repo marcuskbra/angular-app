@@ -1,20 +1,34 @@
 angular.module('minhasFinancas')
-	.service('contasService', function() {
+	.service('contasService', function($http) {
 		var _contas;
-		var _getContas = function() {
-			if (!_contas) {
-				_contas = [
-					          { nome: 'Santander', saldo: 2222, active: 'true' },
-					          { nome: 'Bradesco', saldo: 4522, active: 'true' },
-					          { nome: 'Itau', saldo: 550, active: 'true' },
-					          { nome: 'HSBC', saldo: 50, active: 'true' }
-				          ];
-			}
-	    	return _contas;
-		};
 		
-		this.getContas = _getContas;
-		this.adicionarConta = function(conta) {
-			_getContas().push(angular.copy(conta));
+		this.getContas = function(cb) {
+            
+            $http.get('/api/contas')
+                .success(function(data) {
+                    _contas = data;
+                    console.log('Get success.');
+                    console.log(data);
+                    if (typeof(cb) === 'function') {
+                        cb(_contas);
+                    }
+                })
+                .error(function(data) {
+                    console.log('Error: ' + data);
+                });
+		};
+    
+		this.adicionarConta = function(conta, cb) {
+            
+            $http.post('/api/contas', angular.copy(conta))
+                .success(function(data) {
+                    console.log('Post success. ' + data);
+                    if (typeof(cb) === 'function') {
+                        cb(data);
+                    }
+                })
+                .error(function(data) {
+                    console.log('Error: ' + data);
+                });
 		};
 	});

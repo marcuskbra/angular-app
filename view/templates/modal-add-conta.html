@@ -12,7 +12,7 @@
 			<md-input-container> 
 				<label>Conta</label> 
 				<input md-maxlength="30" required name="nome" type="text" ng-model="conta.nome" />
-				<div ng-messages="addContaForm.nome.$error">
+				<div ng-show="addContaForm.nome.$dirty" ng-messages="addContaForm.nome.$error">
 					<div ng-message="required">This is required.</div>
 					<div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
 				</div>
@@ -20,7 +20,7 @@
 			<md-input-container>
 				<label>Saldo (R$)</label> 
 				<input required type="number" step="any" name="saldo" ng-model="conta.saldo">
-				<div ng-messages="addContaForm.saldo.$error">
+				<div ng-show="addContaForm.saldo.$dirty" ng-messages="addContaForm.saldo.$error">
 					<div ng-message="required">
 						This is required.
 					</div>
