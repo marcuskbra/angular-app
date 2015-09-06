@@ -1,20 +1,20 @@
 angular.module('minhasFinancas')
 	.service('contasService', function($http) {
 		
-		this.getContas = function(cb) {
+		this.getContas = function() {
             
-            $http.get('/api/contas')
-                .success(function(data) {
-                	var _contas = data;
-                    console.log('Get success.');
-                    console.log(data);
-                    if (typeof(cb) === 'function') {
-                        cb(_contas);
-                    }
-                })
-                .error(function(data) {
-                    console.log('Error: ' + data);
-                });
+            return $http.get('/api/contas');
+//                .success(function(data) {
+//                	var _contas = data;
+//                    console.log('Get success.');
+//                    console.log(data);
+//                    if (typeof(cb) === 'function') {
+//                        cb(_contas);
+//                    }
+//                })
+//                .error(function(data) {
+//                    console.log('Error: ' + data);
+//                });
 		};
     
 		this.adicionarConta = function(conta, cb) {

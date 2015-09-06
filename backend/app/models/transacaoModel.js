@@ -11,4 +11,4 @@ var TransacaoSchema = new Schema({
 	efetivada: Boolean
 });
 
-module.exports = mongoose.model('Transacao', ContaSchema);
+module.exports = mongoose.model('Transacao', TransacaoSchema);
