@@ -4,37 +4,54 @@ angular.module('minhasFinancas')
 	    	$mdSidenav(menuId).toggle();
 	    };
         $scope.appTitle = 'Minhas Finanças';
-        contasService.getContas(function(data) {
-            $scope.contas = data;
-        });
+        
+        $scope.getContas = function() {
+        	contasService.getContas()
+        		.success(function(data) {
+					console.log('Get success.');
+					console.log(data);
+					$scope.contas = data;
+        		})
+				.error(function(data) {
+					console.log('Error: ' + data);
+				});
+        };
+        $scope.getContas();
 
         $scope.adicionarConta = function(conta) {
-        	contasService.adicionarConta(conta, function () {
-                delete $scope.conta;
-                contasService.getContas(function(data) {
-                    $scope.contas = data;
+        	contasService.adicionarConta(conta)
+        		.success(function(data) {
+                    console.log('Post success. ' + data);
+                    $scope.getContas();
+                })
+                .error(function(data) {
+                    console.log('Error: ' + data);
                 });
-            });
-		};
+                delete $scope.conta;
+        };
 
         $scope.removerContas = function(contas) {
         	contas.forEach(function(conta) {
         		var indexOf = $scope.tableConfig.selectedRows.indexOf(conta);
         		if (indexOf !== -1) {
-        			contasService.removerConta(conta);
+        			contasService.removerConta(conta)
+	        			.success(function(data) {
+	                        console.log('Delete success. ' + data);
+	                    })
+	                    .error(function(data) {
+	                        console.log('Error: ' + data);
+	                    });
         		}
 			});
         	$scope.tableConfig.selectedRows = [];
-        	contasService.getContas(function(data) {
-                $scope.contas = data;
-            });
+        	$scope.getContas();
 		};
 		
         $scope.tableConfig = {
-          order: 'nome',
-          limit: 5,
-          page: 1,
-          selectedRows: []
+			order: 'nome',
+			limit: 5,
+			page: 1,
+			selectedRows: []
         };
         
         $scope.openModalAdd = function(ev) {
@@ -45,7 +62,7 @@ angular.module('minhasFinancas')
       	      targetEvent: ev,
       	    })
       	    .then(function(conta) {
-      	      $scope.adicionarConta(conta);
+      	    	$scope.adicionarConta(conta);
       	    }, function() {
       	      //console.log('You cancelled the dialog.');
       	    });
