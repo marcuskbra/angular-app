@@ -37,6 +37,7 @@ angular.module('minhasFinancas')
         			contasService.removerConta(conta)
 	        			.success(function(data) {
 	                        console.log('Delete success. ' + data);
+	                        $scope.getContas();
 	                    })
 	                    .error(function(data) {
 	                        console.log('Error: ' + data);
@@ -44,7 +45,6 @@ angular.module('minhasFinancas')
         		}
 			});
         	$scope.tableConfig.selectedRows = [];
-        	$scope.getContas();
 		};
 		
         $scope.tableConfig = {
