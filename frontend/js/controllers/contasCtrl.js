@@ -18,11 +18,16 @@ angular.module('minhasFinancas')
 		};
 
         $scope.removerContas = function(contas) {
-        	$scope.contas = contas.filter(function(conta) {
+        	contas.forEach(function(conta) {
         		var indexOf = $scope.tableConfig.selectedRows.indexOf(conta);
-        		return indexOf === -1;
+        		if (indexOf !== -1) {
+        			contasService.removerConta(conta);
+        		}
 			});
         	$scope.tableConfig.selectedRows = [];
+        	contasService.getContas(function(data) {
+                $scope.contas = data;
+            });
 		};
 		
         $scope.tableConfig = {
