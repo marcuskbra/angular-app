@@ -2,6 +2,7 @@
 //ROUTES FOR OUR API
 //=============================================================================
 var ContaModel = require('../models/contaModel');
+var TransacaoModel = require('../models/transacaoModel');
 
 module.exports = function(express, app) {
 	
@@ -20,7 +21,7 @@ module.exports = function(express, app) {
 	});
 		
 	// more routes for our API will happen here
-		
+
 	//on routes that end in /contas
 	//----------------------------------------------------
 	router.route('/contas')
@@ -84,7 +85,72 @@ module.exports = function(express, app) {
 				});
 	        });
 		});
-		
+
+	//on routes that end in /transacoes
+	//----------------------------------------------------
+	router.route('/transacoes')
+	// create conta (accessed at POST http://localhost:8080/api/transacoes)
+		.post(function(req, res) {
+			
+			var transacao = new TransacaoModel(); // create a new instance of the model
+			transacao.nome = req.body.nome; // set the transacoes name (comes from the request)
+			transacao.saldo = req.body.saldo;
+			transacao.ativa = req.body.ativa;
+			
+			// save the object and check for errors
+			transacao.save(function(err) {
+				if (err) {
+					res.send(err);
+				}
+				res.json({
+					message : 'Transacao criada!',
+					transacao: transacao
+				});
+			});
+			
+		})
+		.get(function(req, res) {
+			TransacaoModel.find(function(err, transacoes) {
+				if (err)
+					res.send(err);
+				
+				res.json(transacoes);
+			});
+		});
+	
+	// on routes that end in /transacoes/:transacao_id
+	// ----------------------------------------------------
+	router.route('/transacoes/:transacao_id')
+		.delete(function(req, res) {
+			TransacaoModel.remove({
+	            _id: req.params.transacao_id
+	        }, function(err, transacao) {
+	            if (err) {
+	            	res.send(err);
+	            }
+	            res.json({ message: 'Transacao apagada!' });
+	        });
+		})
+		.put(function(req, res) {
+			TransacaoModel.findById(req.params.transacao_id, function(err, transacao) {
+				transacao.nome = req.body.nome; // set the transacoes name (comes from the request)
+				transacao.saldo = req.body.saldo;
+				transacao.ativa = req.body.ativa;
+				
+				// save the object and check for errors
+				transacao.save(function(err) {
+					if (err) {
+						res.send(err);
+					}
+					res.json({
+						message : 'Transacao atualizada!',
+						conta: conta
+					});
+				});
+	        });
+		});
+
+	
 	// REGISTER OUR ROUTES -------------------------------
 	// all of our routes will be prefixed with /api
 	app.use('/api', router);
