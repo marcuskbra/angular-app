@@ -39,14 +39,14 @@ md-data-table-toolbar.alternate {
 
 </head>
 
-<body layout="column" ng-controller="contasCtrl">
+<body layout="column">
 
 	<md-toolbar layout="row" md-scroll-shrink="true">
 		<div class="md-toolbar-tools">
 			<md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button"> 
 				<md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
 			</md-button>
-			<h1 ng-bind="appTitle"></h1>
+			<h1>Minhas Finanças</h1>
 		</div>
 	</md-toolbar>
 	
@@ -70,10 +70,7 @@ md-data-table-toolbar.alternate {
 		  </md-list>
 		
 		</md-sidenav>
-		<md-card layout="column" flex id="content">
-			<md-card-content layout="column" flex class="md-padding" ng-view>
-				
-			</md-card-content>
+		<md-card layout="column" flex id="content" ng-view>
 		</div>
 	</md-card>
 

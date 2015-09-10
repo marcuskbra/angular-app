@@ -1,0 +1,47 @@
+<md-card-content layout="column" flex class="md-padding" ng-controller="transacoesCtrl">
+
+	<md-data-table-toolbar ng-show="!tableConfig.selectedRows.length" layout-align="space-between center">
+	  <h2 class="md-title">Transações</h2>
+
+	  <md-button class="md-fab" ng-click="openModalAdd($event)">
+		<md-icon md-font-library="material-icons">add</md-icon>
+	  </md-button>
+	</md-data-table-toolbar>
+
+	<md-data-table-toolbar class="alternate" layout-align="space-between center" ng-show="tableConfig.selectedRows.length">
+	  <div>{{tableConfig.selectedRows.length}} {{tableConfig.selectedRows.length > 1 ? 'items selecionados' : 'item selecionado'}}</div>
+	  <md-button class="md-icon-button" ng-click="removerTransacao(transacoes)">
+		<md-icon md-font-library="material-icons">delete</md-icon>
+	  </md-button>
+	</md-data-table-toolbar>
+
+	<md-data-table-container>
+	  <table md-data-table class="md-primary" md-row-select="tableConfig.selectedRows">
+		<thead md-order="tableConfig.order">
+		  <tr>
+			<th order-by="data">Data</th>
+			<th order-by="descricao">Descrição</th>
+			<th order-by="tipoo">Tipo</th>
+			<th order-by="categoria">Categoria</th>
+			<th order-by="conta">Conta</th>
+			<th numeric unit="R$" order-by="valor">Valor</th>
+			<th order-by="efetivada">Efetivada</th>
+		  </tr>
+		</thead>
+		<tbody md-auto-select>
+		  <tr ng-repeat="transacao in transacoes | orderBy: tableConfig.order | filter: skipPagination | limitTo: tableConfig.limit">
+			<td>{{transacao.data}}</td>
+			<td>{{transacao.descricao}}</td>
+			<td>{{transacao.tipo}}</td>
+			<td>{{transacao.categoria}}</td>
+			<td>{{transacao.conta}}</td>
+			<td>{{transacao.valor | currency}}</td>
+			<td>{{transacao.efetivada}}</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</md-data-table-container>
+
+	<md-data-table-pagination md-limit="tableConfig.limit" md-page="tableConfig.page" md-total="{{transacoes.length}}" md-trigger="onPageChange"/>
+
+</md-card-content>

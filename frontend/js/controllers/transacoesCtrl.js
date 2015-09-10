@@ -1,42 +1,42 @@
 angular.module('minhasFinancas')
-    .controller('contasCtrl', ['$scope', '$mdSidenav', '$mdDialog', 'contasService', function($scope, $mdSidenav, $mdDialog, contasService){
+    .controller('transacoesCtrl', ['$scope', '$mdSidenav', '$mdDialog', 'transacoesService', function($scope, $mdSidenav, $mdDialog, transacoesService){
 	    $scope.toggleSidenav = function(menuId) {
 	    	$mdSidenav(menuId).toggle();
 	    };
         
-        $scope.getContas = function() {
-        	contasService.getContas()
+        $scope.getTransacoes = function() {
+        	transacoesService.getTransacoes()
         		.success(function(data) {
 					console.log('Get success.');
 					console.log(data);
-					$scope.contas = data;
+					$scope.transacoes = data;
         		})
 				.error(function(data) {
 					console.log('Error: ' + data);
 				});
         };
-        $scope.getContas();
+        $scope.getTransacoes();
 
-        $scope.adicionarConta = function(conta) {
-        	contasService.adicionarConta(conta)
+        $scope.adicionarTransacao = function(transacao) {
+        	transacoesService.adicionarTransacao(transacao)
         		.success(function(data) {
                     console.log('Post success. ' + data);
-                    $scope.getContas();
+                    $scope.getTransacoes();
                 })
                 .error(function(data) {
                     console.log('Error: ' + data);
                 });
-                delete $scope.conta;
+                delete $scope.transacao;
         };
 
-        $scope.removerContas = function(contas) {
-        	contas.forEach(function(conta) {
-        		var indexOf = $scope.tableConfig.selectedRows.indexOf(conta);
+        $scope.removerTransacoes = function(transacoes) {
+        	transacoes.forEach(function(transacao) {
+        		var indexOf = $scope.tableConfig.selectedRows.indexOf(transacao);
         		if (indexOf !== -1) {
-        			contasService.removerConta(conta)
+        			transacoesService.removerTransacao(transacao)
 	        			.success(function(data) {
 	                        console.log('Delete success. ' + data);
-	                        $scope.getContas();
+	                        $scope.getTransacoes();
 	                    })
 	                    .error(function(data) {
 	                        console.log('Error: ' + data);
@@ -55,13 +55,13 @@ angular.module('minhasFinancas')
         
         $scope.openModalAdd = function(ev) {
         	$mdDialog.show({
-      	      controller: 'contasCtrl',
-      	      templateUrl: 'view/templates/modal-add-conta.html',
+      	      controller: 'transacoesCtrl',
+      	      templateUrl: 'view/templates/modal-add-transacao.html',
       	      parent: angular.element(document.body),
       	      targetEvent: ev,
       	    })
-      	    .then(function(conta) {
-      	    	$scope.adicionarConta(conta);
+      	    .then(function(transacao) {
+      	    	$scope.adicionarTransacao(transacao);
       	    }, function() {
       	      //console.log('You cancelled the dialog.');
       	    });
@@ -71,8 +71,8 @@ angular.module('minhasFinancas')
     	  return index >= ($scope.tableConfig.limit * ($scope.tableConfig.page - 1));
     	};
     	
-		$scope.confirmModal = function(conta) {
-			$mdDialog.hide(conta);
+		$scope.confirmModal = function(transacao) {
+			$mdDialog.hide(transacao);
 		};
 		$scope.cancelModal = function() {
 			$mdDialog.cancel();
