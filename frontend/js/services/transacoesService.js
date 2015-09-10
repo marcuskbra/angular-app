@@ -5,15 +5,15 @@ angular.module('minhasFinancas')
             return $http.get('/api/transacoes');
 		};
     
-		this.adicionarTransacao = function(conta) {
-            return $http.post('/api/transacoes', angular.copy(conta));
+		this.adicionarTransacao = function(transacao) {
+            return $http.post('/api/transacoes', angular.copy(transacao));
 		};
 		
-		this.removerTransacao = function(conta) {
-			return $http.delete('/api/transacoes/'+conta._id);
+		this.removerTransacao = function(transacao) {
+			return $http.delete('/api/transacoes/'+transacao._id);
 		};
 		
-		this.atualizarTransacao = function(conta) {
-			return $http.put('/api/transacoes/'+conta._id);
+		this.atualizarTransacao = function(transacao) {
+			return $http.put('/api/transacoes/'+transacao._id);
 		};
 	});
