@@ -1,10 +1,11 @@
 
 //ROUTES FOR OUR API
 //=============================================================================
-var ContaModel = require('../models/contaModel');
-var TransacaoModel = require('../models/transacaoModel');
+var ContaModel = require('../models/contaModel'),
+	TransacaoModel = require('../models/transacaoModel'),
+	path = require('path');
 
-module.exports = function(express, app) {
+module.exports = function(__dirname, express, app) {
 	
 	var	router = express.Router();              // get an instance of the express Router
 
@@ -158,7 +159,8 @@ module.exports = function(express, app) {
 	//REGISTER ACCESS TO STATIC HTML -------------------------------
 	app.get('*', function(req, res) {
 		// load the single view file (angular will handle the page changes on the front-end)
-		res.sendFile('./frontend/index.html'); 
+		res.sendFile(path.join(__dirname, '../frontend', 'index.html')); 
+		
 	});
 
 }

@@ -6,7 +6,7 @@ var application_root = __dirname,
     express = require("express"),
     bodyParser = require("body-parser"),
     mongoose = require('mongoose'),
-    database = require('./backend/app/config/database'),
+    database = require('./app/config/database'),
     app = express();
 
 
@@ -18,11 +18,11 @@ app.use(bodyParser.json());
 // set our port
 var port = process.env.PORT || 3000;
 
-app.use(express.static(application_root + '/frontend')); 
+app.use(express.static(application_root + './../frontend')); 
 
 //load the routes
 console.log('Loanding routes configuration');
-require('./backend/app/routes/rest-routes')(express, app);
+require('./app/routes/rest-routes')(__dirname, express, app);
 
 //Database
 console.log('Connecting on database at ' + database.url);
