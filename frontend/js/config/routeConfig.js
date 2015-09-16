@@ -1,12 +1,14 @@
-angular.module('minhasFinancas').config(function($routeProvider) {
-	$routeProvider.when('/contas', {
+angular.module('minhasFinancas').config(function($stateProvider, $urlRouterProvider) {
+	$stateProvider.state('contas', {
+		url: '/contas',
 		templateUrl: "view/templates/contas.html",
 		controller: "contasCtrl"
 	});
-	$routeProvider.when('/transacoes', {
+	$stateProvider.state('transacoes', {
+		url: '/transacoes',
 		templateUrl: "view/templates/transacoes.html",
 		controller: "transacoesCtrl"
 	});
 	
-	$routeProvider.otherwise({redirectTo: '/contas'});
+	$urlRouterProvider.otherwise('/contas');
 });
